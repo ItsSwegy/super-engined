@@ -7,7 +7,7 @@
         </VirtualHost>
 
         <VirtualHost *:443>
-        ServerName <domain>
+        ServerName panel.overimagined.dev
         DocumentRoot "/var/www/pelican/public"
 
         AllowEncodedSlashes On
@@ -22,5 +22,5 @@
 
         SSLEngine on
         SSLCertificateFile /etc/certs/fullchain.pem
-        SSLCertificateKeyFile /etc/certs/privkey.pem
+        SSLCertificateKeyFile /etc/certs//privkey.pem
     </VirtualHost>
