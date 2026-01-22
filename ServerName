@@ -1,26 +1,19 @@
-    <VirtualHost *:80>
-        ServerName panel.overimagined.dev
-        
-        RewriteEngine On
-        RewriteCond %{HTTPS} !=on
-        RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L] 
-        </VirtualHost>
+[Unit]
+Description=Wings Daemon
+After=docker.service
+Requires=docker.service
+PartOf=docker.service
 
-        <VirtualHost *:443>
-        ServerName panel.overimagined.dev
-        DocumentRoot "/var/www/pelican/public"
+[Service]
+User=root
+WorkingDirectory=/etc/pelican
+LimitNOFILE=4096
+PIDFile=/var/run/wings/daemon.pid
+ExecStart=/usr/local/bin/wings
+Restart=on-failure
+StartLimitInterval=180
+StartLimitBurst=30
+RestartSec=5s
 
-        AllowEncodedSlashes On
-        
-        php_value upload_max_filesize 100M
-        php_value post_max_size 100M
-
-        <Directory "/var/www/pelican/public">
-            Require all granted
-            AllowOverride all
-        </Directory>
-
-        SSLEngine on
-        SSLCertificateFile /etc/certs/fullchain.pem
-        SSLCertificateKeyFile /etc/certs//privkey.pem
-    </VirtualHost>
+[Install]
+WantedBy=multi-user.target
